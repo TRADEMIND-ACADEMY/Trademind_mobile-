@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --fh: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --fd: 'Chakra Petch', 'Space Grotesk', sans-serif;
+    --fm: 'JetBrains Mono', ui-monospace, monospace;
+    --fb: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    --bg: #05060a;
+    --surface: #0f121b;
+    --surface-elevated: #161a26;
+    --text-primary: #eef1f8;
+    --text-secondary: #7f889e;
+    --border: rgba(255, 255, 255, 0.09);
+    --accent: #4fe3d0;
+    --accent-soft: rgba(79, 227, 208, 0.14);
+    --purple: #a76cf5;
+    --purple-soft: rgba(167, 108, 245, 0.14);
+    --success: #37e0a4;
+    --warning: #f2c14e;
+    --danger: #ff6b73;
+    --gold: #d4af37;
+  }
+
+  [data-theme="day"] {
+    --bg: #ffffff;
+    --surface: #fbfafc;
+    --surface-elevated: #f4f3f7;
+    --text-primary: #25232a;
+    --text-secondary: #706b73;
+    --border: rgba(37, 35, 42, 0.12);
+    --accent: #7357a8;
+    --accent-soft: rgba(115, 87, 168, 0.12);
+    --purple: #5c5368;
+    --purple-soft: rgba(92, 83, 104, 0.12);
+    --success: #329971;
+    --warning: #ad8250;
+    --danger: #b65c64;
+    --gold: #b38f28;
+  }
+}
+
+body {
+  font-family: var(--fb);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.font-display {
+  font-family: var(--fd);
+}
+
+.font-mono {
+  font-family: var(--fm);
+}
+
+.font-sans {
+  font-family: var(--fh);
+}

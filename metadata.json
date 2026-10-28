@@ -1,0 +1,6 @@
+{
+  "name": "TradeMind Academy",
+  "description": "Private Trading Intelligence System — Master your trading. Master yourself.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

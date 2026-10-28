@@ -1,0 +1,17 @@
+{
+  "appId": "com.trademind.academy",
+  "appName": "TradeMind Academy",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "backgroundColor": "#05060a",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  }
+}
