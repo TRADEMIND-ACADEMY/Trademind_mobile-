@@ -1,6 +1,6 @@
 name: Extraire un ZIP du dépôt
 
-# Utilisation : onglet Actions > "Extraire un ZIP du dépôt" > Run workflow > saisir le nom du ZIP (ex. TRADEMIND-ACADEMY-WEB-UNIFIED.zip).
+# Utilisation : onglet Actions > "Extraire un ZIP du dépôt" > Run workflow > saisir le nom du ZIP (ex. TRADEMIND-ACADEMY-MOBILE-UNIFIED.zip).
 # Le contenu est extrait à la racine du dépôt, le ZIP est supprimé, puis le tout est enregistré (commit).
 # Rien n'est écrasé sans trace : tout est dans l'historique Git et peut être annulé.
 on:
@@ -9,7 +9,7 @@ on:
       zip_name:
         description: "Nom exact du fichier ZIP à la racine du dépôt"
         required: true
-        default: "TRADEMIND-ACADEMY-WEB-UNIFIED.zip"
+        default: "TRADEMIND-ACADEMY-MOBILE-UNIFIED.zip"
 
 permissions:
   contents: write
@@ -33,7 +33,7 @@ jobs:
           n=$(find /tmp/unz -mindepth 1 -maxdepth 1 | wc -l)
           if [ "$n" -eq 1 ] && [ -d "$(find /tmp/unz -mindepth 1 -maxdepth 1)" ]; then src="$(find /tmp/unz -mindepth 1 -maxdepth 1)"; else src=/tmp/unz; fi
           # GitHub interdit à ce workflow de modifier .github/workflows : on le met de côté
-          if [ -d "$src/.github" ]; then echo "::warning::Le dossier .github du ZIP n'est pas copié (droit refusé par GitHub). Ajoutez-le à la main : Add file > Create new file."; rm -rf "$src/.github"; fi
+          if [ -d "$src/.github" ]; then echo "::warning::Le dossier .github du ZIP n est pas copié (droit refusé par GitHub). Créez à la main .github/workflows/build-apk.yml (Add file > Create new file) avec le contenu du fichier build-apk.yml fourni."; rm -rf "$src/.github"; fi
           cp -a "$src"/. .
           rm -f "$ZIP_NAME"
           echo "Contenu à la racine :"; ls
