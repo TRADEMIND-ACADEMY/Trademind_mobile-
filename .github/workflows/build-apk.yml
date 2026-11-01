@@ -53,9 +53,16 @@ jobs:
         run: |
           rm -rf android
           npx cap add android
-          # Empêche la sauvegarde automatique Android du jeton de session
-          sed -i 's/<application/<application android:allowBackup="false" android:fullBackupContent="false"/' android/app/src/main/AndroidManifest.xml
-          grep -q 'android:allowBackup' android/app/src/main/AndroidManifest.xml
+          # Empêche la sauvegarde automatique Android du jeton de session (sans dupliquer l'attribut déjà présent)
+          M=android/app/src/main/AndroidManifest.xml
+          if grep -q 'android:allowBackup=' "$M"; then
+            sed -i 's/android:allowBackup="[a-z]*"/android:allowBackup="false"/' "$M"
+          else
+            sed -i '0,/<application/s//<application android:allowBackup="false"/' "$M"
+          fi
+          sed -i 's/ android:fullBackupContent="[^"]*"//' "$M"
+          test "$(grep -o 'android:allowBackup=' "$M" | wc -l)" = "1"
+          grep -n 'allowBackup' "$M"
           npx cap sync android
 
       - name: Construire l'APK debug
