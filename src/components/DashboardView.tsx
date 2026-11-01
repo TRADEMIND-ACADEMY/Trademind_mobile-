@@ -165,9 +165,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="h-44 sm:h-52 w-full pt-4">
             <svg viewBox="0 0 500 160" className="w-full h-full overflow-visible" preserveAspectRatio="none">
               {/* Grid lines */}
-              <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
-              <line x1="0" y1="80" x2="500" y2="80" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
-              <line x1="0" y1="120" x2="500" y2="120" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
+              <line x1="0" y1="40" x2="500" y2="40" style={{ stroke: 'var(--border)' }} strokeDasharray="4 4" />
+              <line x1="0" y1="80" x2="500" y2="80" style={{ stroke: 'var(--border)' }} strokeDasharray="4 4" />
+              <line x1="0" y1="120" x2="500" y2="120" style={{ stroke: 'var(--border)' }} strokeDasharray="4 4" />
 
               {/* Render dynamic path */}
               {(() => {
@@ -189,24 +189,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <>
                     <defs>
                       <linearGradient id="equityGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#4fe3d0" stopOpacity="0.25" />
-                        <stop offset="100%" stopColor="#4fe3d0" stopOpacity="0.0" />
+                        <stop offset="0%" style={{ stopColor: 'var(--accent)', stopOpacity: 0.38 }} />
+                        <stop offset="100%" style={{ stopColor: 'var(--accent)', stopOpacity: 0 }} />
                       </linearGradient>
+                      <filter id="equityGlow" x="-10%" y="-30%" width="120%" height="160%">
+                        <feGaussianBlur stdDeviation="4" />
+                      </filter>
                     </defs>
                     <path d={areaD} fill="url(#equityGrad)" />
-                    <path d={lineD} fill="none" stroke="#4fe3d0" strokeWidth="2.5" strokeLinecap="round" />
-                    {coords.map((c, i) => (
-                      <circle
-                        key={i}
-                        cx={c.x}
-                        cy={c.y}
-                        r="3.5"
-                        fill="#05060a"
-                        stroke="#4fe3d0"
-                        strokeWidth="2"
-                        className="transition-transform hover:scale-150 cursor-pointer"
-                      />
-                    ))}
+                    <path d={lineD} fill="none" style={{ stroke: 'var(--accent)' }} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" opacity="0.45" filter="url(#equityGlow)" vectorEffect="non-scaling-stroke" />
+                    <path d={lineD} fill="none" style={{ stroke: 'var(--accent)' }} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+                    <circle cx={coords[coords.length - 1].x} cy={coords[coords.length - 1].y} r="4.5" style={{ fill: 'var(--accent)' }} />
                   </>
                 );
               })()}

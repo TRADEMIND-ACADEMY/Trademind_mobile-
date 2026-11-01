@@ -45,7 +45,7 @@ export const IntroSplash: React.FC<IntroSplashProps> = ({
   return (
     <div
       onClick={handleManualEnter}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-between px-6 py-10 bg-[#030508] text-white cursor-pointer select-none transition-opacity duration-400 ${
+      data-theme="night" className={`fixed inset-0 z-50 flex flex-col items-center justify-between px-6 py-10 bg-[#030508] text-white cursor-pointer select-none transition-opacity duration-400 ${
         fading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       style={{

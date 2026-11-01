@@ -1,45 +1,67 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+  :root,
+  [data-theme="night"] {
     --fh: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    --fd: 'Chakra Petch', 'Space Grotesk', sans-serif;
+    --fd: 'Space Grotesk', 'Chakra Petch', sans-serif;
     --fm: 'JetBrains Mono', ui-monospace, monospace;
     --fb: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    
-    --bg: #05060a;
-    --surface: #0f121b;
-    --surface-elevated: #161a26;
-    --text-primary: #eef1f8;
-    --text-secondary: #7f889e;
-    --border: rgba(255, 255, 255, 0.09);
+
+    /* NUIT — futuriste (par défaut) */
+    --bg: #04060c;
+    --surface: rgba(14, 19, 32, 0.74);
+    --surface-elevated: rgba(20, 27, 45, 0.86);
+    --text-primary: #eaf6f4;
+    --text-secondary: #8e9fae;
+    --border: rgba(255, 255, 255, 0.10);
     --accent: #4fe3d0;
     --accent-soft: rgba(79, 227, 208, 0.14);
-    --purple: #a76cf5;
-    --purple-soft: rgba(167, 108, 245, 0.14);
-    --success: #37e0a4;
-    --warning: #f2c14e;
-    --danger: #ff6b73;
+    --purple: #a78bfa;
+    --purple-soft: rgba(167, 139, 250, 0.16);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #fb7185;
     --gold: #d4af37;
+    --glow-a: rgba(79, 227, 208, 0.22);
+    --glow-b: rgba(139, 92, 246, 0.22);
+    --grid-line: rgba(255, 255, 255, 0.025);
+    --dock-bg: rgba(10, 14, 24, 0.86);
+    --dock-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(79, 227, 208, 0.10);
+    --bar-bg: rgba(6, 9, 16, 0.80);
+    --on-accent: #04110f;
+    --blur: blur(14px);
+    color-scheme: dark;
   }
 
+  /* JOUR — clair, net, futuriste */
   [data-theme="day"] {
-    --bg: #ffffff;
-    --surface: #fbfafc;
-    --surface-elevated: #f4f3f7;
-    --text-primary: #25232a;
-    --text-secondary: #706b73;
-    --border: rgba(37, 35, 42, 0.12);
-    --accent: #7357a8;
-    --accent-soft: rgba(115, 87, 168, 0.12);
-    --purple: #5c5368;
-    --purple-soft: rgba(92, 83, 104, 0.12);
-    --success: #329971;
-    --warning: #ad8250;
-    --danger: #b65c64;
-    --gold: #b38f28;
+    --bg: #eef3f9;
+    --surface: rgba(255, 255, 255, 0.78);
+    --surface-elevated: rgba(255, 255, 255, 0.94);
+    --text-primary: #0b1424;
+    --text-secondary: #4b5b6e;
+    --border: rgba(11, 20, 36, 0.13);
+    --accent: #0a8c80;
+    --accent-soft: rgba(10, 140, 128, 0.12);
+    --purple: #6246d4;
+    --purple-soft: rgba(98, 70, 212, 0.12);
+    --success: #0f8a5f;
+    --warning: #a86a00;
+    --danger: #c2334a;
+    --gold: #9a7410;
+    --glow-a: rgba(20, 184, 166, 0.20);
+    --glow-b: rgba(99, 102, 241, 0.16);
+    --grid-line: rgba(11, 20, 36, 0.045);
+    --dock-bg: rgba(255, 255, 255, 0.88);
+    --dock-shadow: 0 10px 34px rgba(30, 50, 80, 0.20), 0 0 24px rgba(10, 140, 128, 0.12);
+    --bar-bg: rgba(238, 243, 249, 0.82);
+    --on-accent: #ffffff;
+    color-scheme: light;
   }
 }
+
+html { -webkit-tap-highlight-color: transparent; }
 
 body {
   font-family: var(--fb);
@@ -47,16 +69,43 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow-x: hidden;
 }
 
-.font-display {
-  font-family: var(--fd);
+/* Fond futuriste : halos + grille (ne bloque aucun clic) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(520px 520px at -10% -8%, var(--glow-a), transparent 70%),
+    radial-gradient(560px 560px at 110% 38%, var(--glow-b), transparent 70%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 32px 32px;
 }
 
-.font-mono {
-  font-family: var(--fm);
+/* Verre : les cartes existantes (bg surface) reçoivent un flou léger */
+[class*="bg-[var(--surface)]"],
+[class*="bg-[var(--surface-elevated)]"] {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
 }
 
-.font-sans {
-  font-family: var(--fh);
+/* Texte des boutons d'accent : lisible en clair comme en sombre */
+[class*="bg-[var(--accent)]"][class*="text-[#04110f]"] { color: var(--on-accent); }
+
+.font-display { font-family: var(--fd); }
+.font-mono { font-family: var(--fm); }
+.font-sans { font-family: var(--fh); }
+
+.tm-glow { box-shadow: 0 0 24px var(--accent-soft); }
+.tm-fab {
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

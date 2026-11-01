@@ -74,7 +74,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#03060b] text-[var(--text-primary)] flex flex-col justify-between py-6 px-4 sm:px-6 relative overflow-hidden select-none">
+    <div data-theme="night" className="min-h-screen w-full bg-[#03060b] text-[var(--text-primary)] flex flex-col justify-between py-6 px-4 sm:px-6 relative overflow-hidden select-none">
       {/* Ambient background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />

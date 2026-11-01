@@ -262,6 +262,7 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // Update theme & language DOM attributes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', settings.theme === 'auto' ? 'night' : settings.theme);
+    try { document.querySelector('meta[name="theme-color"]')?.setAttribute('content', settings.theme === 'day' ? '#eef3f9' : '#04060c'); } catch { /* sans effet */ }
     document.documentElement.lang = settings.lang;
   }, [settings.theme, settings.lang]);
 

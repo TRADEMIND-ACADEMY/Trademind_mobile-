@@ -128,9 +128,9 @@ const AppContent: React.FC = () => {
 
       {/* Main Container with generous bottom padding for Android & Mobile safe areas */}
       <main
-        className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-28 md:pb-12"
+        className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-32 md:pb-12"
         style={{
-          paddingBottom: 'calc(5.5rem + env(safe-area-inset-bottom, 16px))'
+          paddingBottom: 'calc(7rem + env(safe-area-inset-bottom, 16px))'
         }}
       >
         {/* Desktop Navigation Tabs (Hidden on mobile) */}
@@ -213,6 +213,7 @@ const AppContent: React.FC = () => {
         activeTab={activeTab}
         onChangeTab={setActiveTab}
         onOpenPlus={() => setIsPlusMenuOpen(true)}
+        onOpenNewTrade={handleOpenNewTrade}
       />
 
       {/* Mobile Plus Action Sheet */}

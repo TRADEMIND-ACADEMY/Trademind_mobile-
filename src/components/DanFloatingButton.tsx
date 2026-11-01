@@ -15,9 +15,11 @@ export const DanFloatingButton: React.FC<DanFloatingButtonProps> = ({ onClick })
       type="button"
       onClick={onClick}
       aria-label="Ouvrir l'assistant DAN AI"
-      className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-30 group flex items-center gap-2 pl-3 pr-3.5 py-2.5 rounded-full bg-[#0a0718]/90 hover:bg-[#140e2e] border border-purple-500/40 text-purple-300 shadow-xl shadow-purple-950/40 backdrop-blur-xl transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      className="fixed right-4 md:bottom-6 md:right-6 z-30 group flex items-center gap-2 pl-3 pr-3.5 py-2.5 rounded-full border border-[var(--purple)]/60 text-[var(--text-primary)] backdrop-blur-xl transition-all active:scale-95"
       style={{
-        marginBottom: 'env(safe-area-inset-bottom, 0px)'
+        bottom: 'calc(6.25rem + env(safe-area-inset-bottom, 0px))',
+        background: 'var(--surface-elevated)',
+        boxShadow: '0 0 26px var(--purple-soft)'
       }}
     >
       <div className="relative">
@@ -31,7 +33,7 @@ export const DanFloatingButton: React.FC<DanFloatingButtonProps> = ({ onClick })
 
       <div className="text-left leading-none">
         <div className="flex items-center gap-1">
-          <span className="font-display font-bold text-xs tracking-wide text-white">DAN</span>
+          <span className="font-display font-bold text-xs tracking-wide text-[var(--text-primary)]">DAN</span>
           <Sparkles className="w-2.5 h-2.5 text-purple-400 animate-pulse" />
         </div>
         <span className="text-[9px] font-mono text-purple-300/80 uppercase">AI</span>

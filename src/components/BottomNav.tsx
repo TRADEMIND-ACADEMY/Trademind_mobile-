@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, BookOpen, Sliders, TrendingUp, MoreHorizontal } from 'lucide-react';
+import { LayoutDashboard, BookOpen, TrendingUp, MoreHorizontal, Plus } from 'lucide-react';
 import { useTrading } from '../context/TradingContext.js';
 
 export type ActiveTab = 'dashboard' | 'journal' | 'plans' | 'matrix' | 'calendar' | 'performance' | 'profile';
@@ -8,69 +8,75 @@ interface BottomNavProps {
   activeTab: ActiveTab;
   onChangeTab: (tab: ActiveTab) => void;
   onOpenPlus: () => void;
+  onOpenNewTrade: () => void;
 }
 
-export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab, onOpenPlus }) => {
+export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onChangeTab, onOpenPlus, onOpenNewTrade }) => {
   const { settings } = useTrading();
   const isFr = settings.lang === 'fr';
 
-  const items = [
+  const left = [
     { id: 'dashboard' as const, label: isFr ? 'Accueil' : 'Home', icon: LayoutDashboard },
-    { id: 'journal' as const, label: isFr ? 'Journal' : 'Journal', icon: BookOpen },
-    { id: 'plans' as const, label: isFr ? 'Plans' : 'Plans', icon: Sliders },
-    { id: 'performance' as const, label: isFr ? 'Performance' : 'Analytics', icon: TrendingUp },
+    { id: 'journal' as const, label: 'Journal', icon: BookOpen },
+  ];
+  const right = [
+    { id: 'performance' as const, label: isFr ? 'Analyse' : 'Analytics', icon: TrendingUp },
   ];
 
-  const isPlusActive = activeTab === 'matrix' || activeTab === 'calendar' || activeTab === 'profile';
+  const isPlusActive = activeTab === 'plans' || activeTab === 'matrix' || activeTab === 'calendar' || activeTab === 'profile';
+
+  const tabBtn = (id: ActiveTab, label: string, Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>) => {
+    const active = activeTab === id;
+    return (
+      <button
+        key={id}
+        type="button"
+        onClick={() => onChangeTab(id)}
+        aria-current={active ? 'page' : undefined}
+        className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-[52px] rounded-2xl text-[10px] font-medium transition-all active:scale-95 ${
+          active ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+        }`}
+      >
+        <Icon className="w-[22px] h-[22px]" strokeWidth={active ? 2.3 : 1.8} />
+        <span>{label}</span>
+      </button>
+    );
+  };
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 bg-[#05060a]/95 backdrop-blur-xl border-t border-[var(--border)] px-1 sm:px-3 pt-2 md:hidden transition-colors shadow-2xl"
-      style={{ paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom, 12px))' }}
-      aria-label="Mobile Navigation"
+      aria-label={isFr ? 'Navigation principale' : 'Main navigation'}
+      className="md:hidden fixed z-40 left-3 right-3 h-[70px] rounded-[26px] border border-[var(--border)] backdrop-blur-xl flex items-center justify-around px-1.5"
+      style={{
+        background: 'var(--dock-bg)',
+        boxShadow: 'var(--dock-shadow)',
+        bottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))'
+      }}
     >
-      <div className="flex items-center justify-around max-w-md mx-auto">
-        {items.map(item => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => onChangeTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-2xl min-w-[62px] min-h-[48px] transition-all relative ${
-                isActive
-                  ? 'text-[var(--accent)] font-bold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] active:scale-95'
-              }`}
-            >
-              <Icon className="w-5 h-5 mb-1" strokeWidth={isActive ? 2.3 : 1.75} />
-              <span className="text-[10px] tracking-tight font-sans font-medium">{item.label}</span>
-              {isActive && (
-                <span className="absolute bottom-0 w-3 h-0.5 rounded-full bg-[var(--accent)] shadow-sm" />
-              )}
-            </button>
-          );
-        })}
+      {left.map(i => tabBtn(i.id, i.label, i.icon))}
 
-        {/* 5th Tab: Plus */}
-        <button
-          type="button"
-          onClick={onOpenPlus}
-          className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-2xl min-w-[62px] min-h-[48px] transition-all relative ${
-            isPlusActive
-              ? 'text-[var(--accent)] font-bold'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] active:scale-95'
-          }`}
-          title={isFr ? 'Plus d options' : 'More options'}
-        >
-          <MoreHorizontal className="w-5 h-5 mb-1" strokeWidth={isPlusActive ? 2.3 : 1.75} />
-          <span className="text-[10px] tracking-tight font-sans font-medium">{isFr ? 'Plus' : 'More'}</span>
-          {isPlusActive && (
-            <span className="absolute bottom-0 w-3 h-0.5 rounded-full bg-[var(--accent)] shadow-sm" />
-          )}
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={onOpenNewTrade}
+        aria-label={isFr ? 'Ajouter un trade' : 'Add a trade'}
+        className="tm-fab w-[60px] h-[60px] -mt-7 rounded-full border-2 border-white/20 flex items-center justify-center text-[var(--on-accent)] active:scale-95 transition-transform"
+      >
+        <Plus className="w-7 h-7" strokeWidth={2.8} />
+      </button>
+
+      {right.map(i => tabBtn(i.id, i.label, i.icon))}
+
+      <button
+        type="button"
+        onClick={onOpenPlus}
+        aria-haspopup="dialog"
+        className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-[52px] rounded-2xl text-[10px] font-medium transition-all active:scale-95 ${
+          isPlusActive ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+        }`}
+      >
+        <MoreHorizontal className="w-[22px] h-[22px]" strokeWidth={isPlusActive ? 2.3 : 1.8} />
+        <span>Plus</span>
+      </button>
     </nav>
   );
 };
