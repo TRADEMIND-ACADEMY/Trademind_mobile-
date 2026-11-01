@@ -54,6 +54,7 @@ jobs:
           rm -rf android
           npx cap add android
           # Logo officiel TRADEMIND à la place de l'icône bleue par défaut
+          command -v convert >/dev/null 2>&1 || command -v magick >/dev/null 2>&1 || { sudo apt-get update -y && sudo apt-get install -y imagemagick; }
           bash scripts/make-android-icons.sh
           # Empêche la sauvegarde automatique Android du jeton de session (sans dupliquer l'attribut déjà présent)
           M=android/app/src/main/AndroidManifest.xml
