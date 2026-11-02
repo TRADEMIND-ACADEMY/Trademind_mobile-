@@ -33,3 +33,16 @@ cat > "$RES/values/ic_launcher_background.xml" <<X
 </resources>
 X
 echo "Icônes TRADEMIND générées :"; ls "$RES"/mipmap-*/ic_launcher*.png | wc -l
+
+# ---- Écran de lancement natif (remplace le splash Capacitor par défaut) ----
+mkdir -p "$RES/drawable"
+mk_splash() { # fichier, largeur, hauteur, taille du logo
+  local out="$1" w="$2" h="$3" l="$4"
+  mkdir -p "$(dirname "$out")"
+  $IM -size "${w}x${h}" "xc:#05060a" \( "$SRC" -resize "${l}x${l}" \) -gravity center -composite "$out"
+}
+mk_splash "$RES/drawable/splash.png" 480 480 260
+for d in "$RES"/drawable-port-* ; do [ -d "$d" ] && mk_splash "$d/splash.png" 1080 1920 520; done
+for d in "$RES"/drawable-land-* ; do [ -d "$d" ] && mk_splash "$d/splash.png" 1920 1080 520; done
+for d in "$RES"/drawable-night ; do [ -d "$d" ] && mk_splash "$d/splash.png" 480 480 260; done
+echo "Splash TRADEMIND généré"

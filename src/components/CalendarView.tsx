@@ -4,7 +4,7 @@ import { Trade } from '../types/index.js';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 export const CalendarView: React.FC<{ onEditTrade?: (trade: Trade) => void }> = ({ onEditTrade }) => {
-  const { trades, settings } = useTrading();
+  const { trades, settings, isDemoMode } = useTrading();
   const isFr = settings.lang === 'fr';
 
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -197,7 +197,7 @@ export const CalendarView: React.FC<{ onEditTrade?: (trade: Trade) => void }> = 
                   <span className={`font-bold ${Number(trade.pnl || 0) >= 0 ? 'text-[var(--success)]' : 'text-[var(--danger)]'}`}>
                     {fmtCurrency(Number(trade.pnl || 0))}
                   </span>
-                  {onEditTrade && (
+                  {onEditTrade && !isDemoMode && (
                     <button
                       onClick={() => onEditTrade(trade)}
                       className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-[10px] text-[var(--text-secondary)]"

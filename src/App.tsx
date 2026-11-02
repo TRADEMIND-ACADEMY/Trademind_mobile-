@@ -51,11 +51,13 @@ const AppContent: React.FC = () => {
   const [isPlusMenuOpen, setIsPlusMenuOpen] = useState(false);
 
   const handleOpenNewTrade = () => {
+    if (isDemoMode) { window.alert(isFr ? 'Mode démo : données fictives en lecture seule. Passez en mode réel pour saisir vos trades.' : 'Demo mode: synthetic data is read-only. Switch to real mode to log trades.'); return; }
     setTradeToEdit(null);
     setIsTradeModalOpen(true);
   };
 
   const handleEditTrade = (trade: Trade) => {
+    if (isDemoMode) return;
     setTradeToEdit(trade);
     setIsTradeModalOpen(true);
   };

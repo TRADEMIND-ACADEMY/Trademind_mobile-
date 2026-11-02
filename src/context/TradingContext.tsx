@@ -294,6 +294,7 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Add trade
   const addTrade = async (tradeData: Omit<Trade, 'id' | 'mode'>): Promise<{ success: boolean; error?: string }> => {
+    if (isDemoMode) return { success: false, error: 'Mode démo en lecture seule : les données fictives ne sont pas modifiables. Passez en mode réel pour saisir vos trades.' };
     const tradeId = (isDemoMode ? 'demo-' : 'tr_') + Math.random().toString(36).slice(2, 10);
     const newTrade: Trade = {
       ...tradeData,
@@ -326,10 +327,7 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Update trade
   const updateTrade = async (id: string, updates: Partial<Trade>): Promise<{ success: boolean; error?: string }> => {
-    if (isDemoMode) {
-      setDemoTrades(prev => prev.map(t => t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t));
-      return { success: true };
-    }
+    if (isDemoMode) return { success: false, error: 'Mode démo en lecture seule : les données fictives ne sont pas modifiables. Passez en mode réel pour saisir vos trades.' };
 
     setRealTrades(prev => prev.map(t => (t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t)));
     return { success: true };
@@ -337,10 +335,7 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Delete trade
   const deleteTrade = async (id: string): Promise<{ success: boolean; error?: string }> => {
-    if (isDemoMode) {
-      setDemoTrades(prev => prev.filter(t => t.id !== id));
-      return { success: true };
-    }
+    if (isDemoMode) return { success: false, error: 'Mode démo en lecture seule : les données fictives ne sont pas modifiables. Passez en mode réel pour saisir vos trades.' };
 
     setRealTrades(prev => prev.filter(t => t.id !== id));
     tmSync.noteDelete('trade', id);
@@ -399,6 +394,7 @@ export const TradingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // CSV Import
   const importCsv = async (file: File): Promise<{ success: boolean; importedCount: number; error?: string }> => {
+    if (isDemoMode) return { success: false, importedCount: 0, error: 'Mode démo en lecture seule : import impossible.' };
     try {
       const text = await file.text();
       const lines = text.split('\n').filter(l => l.trim().length > 0);

@@ -127,11 +127,11 @@ export const JournalView: React.FC<JournalViewProps> = ({ onOpenNewTrade, onEdit
           </div>
 
           {/* CSV Import */}
-          <label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-colors">
+          {!isDemoMode && (<label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-colors">
             <Upload className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Import</span>
             <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" />
-          </label>
+          </label>)}
 
           {/* CSV Export */}
           <button
@@ -144,14 +144,18 @@ export const JournalView: React.FC<JournalViewProps> = ({ onOpenNewTrade, onEdit
           </button>
 
           {/* Add Trade */}
-          <button
+          {isDemoMode ? (
+            <span className="px-3 py-2 rounded-xl border border-amber-500/40 bg-amber-500/10 text-[10.5px] font-bold text-amber-500">
+              {isFr ? 'DÉMO · LECTURE SEULE' : 'DEMO · READ-ONLY'}
+            </span>
+          ) : (<button
             onClick={onOpenNewTrade}
             type="button"
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--accent)] text-[#04110f] text-xs font-bold shadow-lg shadow-[var(--accent)]/15 hover:opacity-95 transition-opacity"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>{isFr ? 'Ajouter un Trade' : 'Add Trade'}</span>
-          </button>
+          </button>)}
         </div>
       </div>
 
@@ -290,6 +294,7 @@ export const JournalView: React.FC<JournalViewProps> = ({ onOpenNewTrade, onEdit
                   </div>
 
                   <div className="flex items-center gap-1">
+                    {!isDemoMode && (<>
                     <button
                       onClick={() => handleDuplicate(trade)}
                       type="button"
@@ -314,6 +319,7 @@ export const JournalView: React.FC<JournalViewProps> = ({ onOpenNewTrade, onEdit
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
+                    </>)}
                   </div>
                 </div>
               </div>
