@@ -22,15 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isFr = settings.lang === 'fr';
 
   const handleToggleMode = () => {
-    if (isDemoMode) {
-      if (window.confirm(isFr ? 'Passer en mode RÉEL ? Vos vrais trades enregistrés seront chargés.' : 'Switch to REAL MODE? Your authorized account trades will load.')) {
-        setDemoMode(false);
-      }
-    } else {
-      if (window.confirm(isFr ? 'Passer en mode DÉMO ? Aucune donnée ne sera transmise au serveur.' : 'Switch to DEMO MODE? Synthetic data will be used and no trades will touch the server.')) {
-        setDemoMode(true);
-      }
-    }
+    setDemoMode(!isDemoMode);
   };
 
   const toggleTheme = () => {

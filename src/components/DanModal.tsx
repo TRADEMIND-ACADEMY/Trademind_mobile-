@@ -86,10 +86,14 @@ export const DanModal: React.FC<DanModalProps> = ({ isOpen, onClose }) => {
       const data: any = res.json || {};
       if (!res.ok) {
         let msg = data.error || 'Erreur DAN';
+        if (data.code === 'DAN_PROVIDER_ERROR' || data.code === 'DAN_TIMEOUT') {
+          const d = data.detail ? ` [${String(data.detail).slice(0, 80)}]` : '';
+          msg = (isFr ? 'DAN est momentanément indisponible. Réessayez dans un instant.' : 'DAN is temporarily unavailable. Please try again shortly.') + d;
+        }
         if (data.code === 'DAN_NOT_CONFIGURED') {
           msg = isFr
-            ? "Service DAN non configuré : La clé GEMINI_API_KEY n'a pas encore été injectée sur le serveur. Pour l'activer, configurez GEMINI_API_KEY dans vos secrets d'environnement."
-            : 'DAN AI Service not configured: GEMINI_API_KEY has not been configured in server secrets yet.';
+            ? "Service DAN non configuré : aucune clé IA n'est active sur le serveur (GEMINI_API_KEY, GROQ_API_KEY, OPENROUTER_API_KEY ou MISTRAL_API_KEY). Ajoutez-la dans Netlify puis relancez un déploiement."
+            : 'DAN AI is not configured: no AI key is active on the server (GEMINI_API_KEY, GROQ_API_KEY, OPENROUTER_API_KEY or MISTRAL_API_KEY). Add it in Netlify and redeploy.';
         } else if (data.code === 'DAN_LOCKED') {
           msg = isFr
             ? "DAN est accessible avec le plan ASCEND ou SOVEREIGN. Consultez votre profil pour mettre à niveau votre abonnement."
