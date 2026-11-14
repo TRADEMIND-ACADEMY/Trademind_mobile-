@@ -1,0 +1,109 @@
+/* TRADEMIND — application, étape 3 : menu latéral structuré, cascade d'entrée, filets au lieu de cartes.
+   Présentation uniquement : aucune donnée, aucune route, aucune règle métier. Chargé en dernier. */
+
+/* ---------- Ordre : le Command Deck passe avant les cartes de compte ---------- */
+#view-dashboard.active{display:flex;flex-direction:column}
+#view-dashboard #tm-command-surfaces{order:5;margin-top:44px;padding-top:28px;border-top:1px solid var(--tm-line,rgba(167,178,190,.16))}
+#view-dashboard #dashBody,#view-dashboard #dashEmpty{order:1}
+
+/* ---------- Menu latéral (bureau) ---------- */
+#tm-rail{display:none}
+@media(min-width:1100px){
+  #tm-rail{display:flex;flex-direction:column;position:fixed;z-index:70;left:0;top:0;bottom:0;width:248px;padding:22px 14px 16px;
+    background:var(--tm-bg,#0A0C0F);border-right:1px solid var(--tm-line,rgba(167,178,190,.16));overflow-y:auto;scrollbar-width:thin}
+  html body .shell{margin-left:248px}
+  html body .topbar .brand{display:none}
+  html body .topbar{margin-left:18px;margin-right:18px}
+  #tm-rail .rail-brand{display:flex;align-items:center;gap:10px;padding:2px 6px 20px;border-bottom:1px solid var(--tm-line,rgba(167,178,190,.16));margin-bottom:6px}
+  #tm-rail .rail-brand img{width:34px;height:34px;border-radius:2px;object-fit:cover}
+  #tm-rail .rail-brand b{display:block;font:500 13px/1.1 var(--tm-serif,'Instrument Serif',serif);letter-spacing:.04em;color:var(--tx,#E8ECF0)}
+  #tm-rail .rail-brand small{display:block;margin-top:3px;font:500 10px/1 var(--tm-mono,monospace);letter-spacing:.14em;color:var(--tm-muted,#A7B2BE);text-transform:uppercase}
+  #tm-rail .rail-group{margin-top:18px}
+  #tm-rail .rail-group>small{display:flex;align-items:center;gap:8px;padding:0 8px 8px;font:500 10.5px/1 var(--tm-mono,monospace);letter-spacing:.18em;text-transform:uppercase;color:var(--tm-muted,#A7B2BE)}
+  #tm-rail .rail-group>small i{font-style:normal;color:var(--tm-cyan,#5CC8D7)}
+  #tm-rail .rail-group>small::after{content:'';flex:1;height:1px;background:var(--tm-line,rgba(167,178,190,.16))}
+  #tm-rail .rail-item{position:relative;display:flex;width:100%;align-items:center;gap:10px;min-height:38px;padding:8px 10px;border:0;border-radius:2px;background:transparent;
+    color:var(--tm-muted,#A7B2BE);font:500 13px/1.2 var(--tm-ui,'Hanken Grotesk',sans-serif);text-align:left;cursor:pointer;transition:color .2s,background .25s}
+  #tm-rail .rail-item svg{width:15px;height:15px;flex:none;opacity:.8}
+  #tm-rail .rail-item:hover{color:var(--tx,#E8ECF0);background:color-mix(in srgb,var(--tm-cyan,#5CC8D7) 6%,transparent)}
+  #tm-rail .rail-item:focus-visible{outline:1px solid var(--tm-cyan,#5CC8D7);outline-offset:-1px}
+  #tm-rail .rail-item::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:2px;background:var(--tm-cyan,#5CC8D7);transform:scaleY(0);transform-origin:center;transition:transform .32s cubic-bezier(.22,.8,.24,1)}
+  #tm-rail .rail-item.on{color:var(--tx,#E8ECF0);background:color-mix(in srgb,var(--tm-cyan,#5CC8D7) 9%,transparent)}
+  #tm-rail .rail-item.on::before{transform:scaleY(1)}
+  #tm-rail .rail-item.on svg{stroke:var(--tm-cyan,#5CC8D7);opacity:1}
+  #tm-rail .rail-foot{margin-top:auto;padding:16px 8px 0;font:500 10.5px/1.4 var(--tm-mono,monospace);letter-spacing:.1em;color:var(--tm-muted,#A7B2BE);text-transform:uppercase;border-top:1px solid var(--tm-line,rgba(167,178,190,.16))}
+  #tm-rail .rail-foot i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--tm-up,#52C79A);margin-right:8px}
+  #tm-rail .rail-sp{height:16px;flex:none}
+}
+
+/* ---------- Cascade d'entrée de la page ---------- */
+@keyframes tmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+html:not(.tm-reduced) .view.tm-enter>*,html:not(.tm-reduced) .view.tm-enter .tm-flow>*{animation:tmIn .34s cubic-bezier(.22,.8,.24,1) both;animation-delay:calc(var(--k,0)*35ms)}
+html:not(.tm-reduced) .view.tm-enter .deck>*,html:not(.tm-reduced) .view.tm-enter .grid>*,html:not(.tm-reduced) .view.tm-enter .coachlist>*{animation:tmIn .34s cubic-bezier(.22,.8,.24,1) both;animation-delay:calc(var(--k,0)*35ms + 60ms)}
+@media (prefers-reduced-motion:reduce){.view.tm-enter *{animation:none!important}}
+
+/* Barres qui montent */
+@keyframes tmRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+html:not(.tm-reduced) .view.tm-enter .bar,html:not(.tm-reduced) .view.tm-enter [class*="bar-fill"],html:not(.tm-reduced) .view.tm-enter .hbar>i{transform-origin:bottom;animation:tmRise .7s cubic-bezier(.22,.8,.24,1) both;animation-delay:.25s}
+
+/* ---------- Cartes → filets (le contenu ne change pas) ---------- */
+#view-dashboard .card,#view-dashboard .panel,#view-dashboard .tm-card{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;border-radius:2px!important;border-color:var(--tm-line,rgba(167,178,190,.16))!important}
+#view-dashboard .sechead h2{font-family:var(--tm-mono,monospace)}
+#view-dashboard .heroval #heroEq{font-family:var(--tm-mono,monospace);font-variant-numeric:tabular-nums}
+.btn,.iconbtn{border-radius:2px}
+.btn:active{transform:translateY(1px)}
+
+/* ---------- Couleur d'accent selon le plan (FREE = Foundation, PRO = Ascend, ELITE = Sovereign) ---------- */
+html[data-plan="FREE"]{--tm-plan:#8FA3B8;--tm-plan-d:#52677C}
+html[data-plan="PRO"]{--tm-plan:#5CC8D7;--tm-plan-d:#1E7C8A}
+html[data-plan="PROMAX"]{--tm-plan:#B3BDC8;--tm-plan-d:#5B6773}
+html[data-plan="ELITE"]{--tm-plan:#C6A477;--tm-plan-d:#8E6F43}
+html[data-plan][data-theme="night"]{--tm-cyan:var(--tm-plan);--acc:var(--tm-plan);--accent:var(--tm-plan);--glow:color-mix(in srgb,var(--tm-plan) 30%,transparent)}
+html[data-plan][data-theme="day"]{--tm-cyan:var(--tm-plan-d);--acc:var(--tm-plan-d);--accent:var(--tm-plan-d);--glow:color-mix(in srgb,var(--tm-plan-d) 24%,transparent)}
+html[data-plan] .btn.primary{color:#0A0C0F}
+html[data-plan][data-theme="day"] .btn.primary{color:#fff}
+#tm-rail .rail-plan{display:flex;align-items:center;gap:8px;margin:14px 6px 0;padding:8px 10px;border:1px solid var(--tm-plan,var(--tm-line));color:var(--tm-plan,var(--tm-muted));font:500 10.5px/1 var(--tm-mono,monospace);letter-spacing:.16em;text-transform:uppercase}
+#tm-rail .rail-plan::before{content:'';width:6px;height:6px;background:var(--tm-plan,currentColor)}
+
+/* ---------- Toutes les vues : filets au lieu de cartes (contenu inchangé) ---------- */
+.view .card,.view .panel,.view .chartcard,.view .statrow,.view .statrow2,.view .tcard,.view .pro-kpi,.view .pro-chart-card,.view .pc-panel,.view .pc-section,.view .pc-kpi,.view .pc-table-card,.view .calcbox,.view .journey,.view .confluence-panel,.view .tm-card{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;border-radius:2px!important;border-color:var(--tm-line,rgba(167,178,190,.16))!important}
+.view .pro-toolbar,.view .empty{border-radius:2px!important}
+.view input,.view select,.view textarea{border-radius:2px}
+.view .sechead h2,.view h1,.view h2{font-weight:400}
+
+/* ---------- Thème jour ---------- */
+html[data-theme="day"] #tm-rail{background:#F4F6F8;border-right-color:rgba(18,22,27,.12)}
+html[data-theme="day"] #tm-rail .rail-brand b,html[data-theme="day"] #tm-rail .rail-item.on,html[data-theme="day"] #tm-rail .rail-item:hover{color:#12161B}
+html[data-theme="day"] #tm-rail .rail-item,html[data-theme="day"] #tm-rail .rail-group>small,html[data-theme="day"] #tm-rail .rail-foot,html[data-theme="day"] #tm-rail .rail-brand small{color:#47525E}
+html[data-theme="day"] #tm-rail .rail-group>small::after,html[data-theme="day"] #tm-rail .rail-brand,html[data-theme="day"] #tm-rail .rail-foot{border-color:rgba(18,22,27,.12);background-color:transparent}
+html[data-theme="day"] .view .card,html[data-theme="day"] .view .panel,html[data-theme="day"] .view .chartcard,html[data-theme="day"] .view .tm-card{border-color:rgba(18,22,27,.14)!important}
+
+/* ---------- Menu façon image 2 : recherche, groupes repliables, profil en bas ---------- */
+@media(min-width:1100px){
+  #tm-rail .rail-search{display:flex;align-items:center;gap:8px;margin:14px 2px 4px;padding:0 10px;height:38px;border:1px solid var(--tm-line,rgba(167,178,190,.16));border-radius:4px;color:var(--tm-muted,#A7B2BE);background:color-mix(in srgb,var(--tm-cyan) 4%,transparent)}
+  #tm-rail .rail-search:focus-within{border-color:var(--tm-cyan)}
+  #tm-rail .rail-search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--tx,#E8ECF0);font:500 13px var(--tm-ui,sans-serif)}
+  #tm-rail .rail-head{display:flex;width:100%;align-items:center;justify-content:space-between;padding:10px 10px 8px;background:none;border:0;cursor:pointer;color:var(--tm-muted,#A7B2BE);font:500 10.5px/1 var(--tm-mono,monospace);letter-spacing:.18em;text-transform:uppercase}
+  #tm-rail .rail-head:hover{color:var(--tx,#E8ECF0)}
+  #tm-rail .rail-head svg{transition:transform .25s}
+  #tm-rail .rail-group.shut .rail-head svg{transform:rotate(-90deg)}
+  #tm-rail .rail-group.shut .rail-body{display:none}
+  #tm-rail .rail-body{margin-left:4px;border-left:1px solid var(--tm-line,rgba(167,178,190,.16))}
+  #tm-rail .rail-item{padding-left:14px}
+  #tm-rail .rail-item::before{left:-1px}
+  #tm-rail .rail-group>small{display:none}
+  #tm-rail .rail-foot{padding:12px 0 0;border-top:1px solid var(--tm-line,rgba(167,178,190,.16))}
+  #tm-rail .rail-me{display:flex;align-items:center;gap:10px;width:100%;padding:8px;background:none;border:0;border-radius:4px;cursor:pointer;text-align:left}
+  #tm-rail .rail-me:hover{background:color-mix(in srgb,var(--tm-cyan) 8%,transparent)}
+  #tm-rail .rail-me .av{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--tm-cyan);color:#0A0C0F;font:600 14px var(--tm-ui,sans-serif)}
+  #tm-rail .rail-me b{display:block;color:var(--tx,#E8ECF0);font:600 13px var(--tm-ui,sans-serif)}
+  #tm-rail .rail-me small{display:block;margin-top:2px;color:var(--tm-muted,#A7B2BE);font:500 11px var(--tm-ui,sans-serif)}
+  #tm-rail .rail-foot i{display:none}
+}
+
+/* ---------- Sobriété : pas d'ornements animés en continu (orbites, bandeaux défilants, nœuds, lueurs) ---------- */
+.tm-orbit,.tm-node,.tm-ticker,.tm-atmo::after{display:none!important}
+.tm-atmo::before{animation:none!important}
+#splash{animation-delay:600ms!important;animation-duration:.35s!important}
+#splash::before,#splash::after{display:none}
+@media(min-width:1100px){#tm-rail .rail-foot{position:sticky;bottom:-16px;background:var(--tm-bg,#0A0C0F);margin-top:auto;padding-bottom:8px}}

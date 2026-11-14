@@ -1,0 +1,4 @@
+Application TradeMind (étape 4).
+- public/ : application. Elle charge ses styles partagés depuis /site-assets (dossier site-assets/ fourni ici).
+- Pour la faire tourner avec le serveur complet, utilisez l'archive WEB-UNIFIED-ETAPE4 (build Netlify).
+- Nouveautés visibles ici : public/index.html référence site-assets/app-v2.css et app-v2.js.

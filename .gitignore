@@ -1,8 +1,2 @@
-node_modules/
-dist/
-android/
-.env
-.env.*
-!.env.example
-*.log
+data/users.json
 .DS_Store

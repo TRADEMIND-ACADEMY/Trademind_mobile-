@@ -1,0 +1,5 @@
+Application TradeMind (étape 5).
+- public/ : application (DAN à partir de APEX, panneau de DAN un peu plus grand).
+- site-assets/ : styles et scripts partagés.
+- Pour la faire tourner avec le serveur complet (DAN, paiements, synchronisation), utilisez l'archive WEB-UNIFIED-ETAPE5.
+- Lisez ETAPE5-REPORT.md pour le détail.

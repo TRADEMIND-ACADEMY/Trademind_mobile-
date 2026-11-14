@@ -1,0 +1,52 @@
+/* TRADEMIND — application v2 : échelle compacte, tableaux en cartes sur téléphone. Présentation seulement. */
+:root{--tm-serif:'Chakra Petch','Hanken Grotesk',system-ui,sans-serif}
+h1,h2,h3{font-family:var(--tm-serif)}
+@media(max-width:640px){
+ h1,.hero h1{font-size:clamp(20px,5.8vw,24px)!important;letter-spacing:-.3px!important;line-height:1.12!important}
+ .heroval{font-size:30px!important;letter-spacing:-1px!important}
+ .orb-core b{font-size:34px!important;letter-spacing:-1px!important}
+ .engine-master .em-score{font-size:38px!important;letter-spacing:-1.5px!important}
+ .confluence-score{font-size:24px!important}
+ .tm-statement{font-size:14px!important;line-height:1.45!important}
+ table.tm-stack{min-width:0!important;width:100%;display:block}
+ table.tm-stack thead{display:none}
+ table.tm-stack tbody,table.tm-stack tr{display:block}
+ table.tm-stack tr{padding:10px 12px;margin:0 0 8px;border:1px solid var(--tm-line);border-radius:10px;background:var(--surf)}
+ table.tm-stack td{display:flex;justify-content:space-between;gap:12px;padding:4px 0!important;border:0!important;font-size:13px;white-space:normal!important;text-align:right}
+ table.tm-stack td::before{content:attr(data-label);color:var(--tm-muted);font-size:11px;text-align:left;flex:none}
+ table.tm-stack td:empty{display:none}
+ button,.btn,a.button{min-height:44px}}
+
+/* Menu : rail compact à gauche (téléphone et tablette), icônes alignées */
+#tm-rail .rail-item svg{width:18px;height:18px;opacity:1;stroke-width:1.7}
+.rail-glide{position:absolute;left:0;top:0;border-radius:12px;background:var(--tm-cyan);transition:transform .45s cubic-bezier(.34,1.25,.4,1),width .3s,height .3s;pointer-events:none;z-index:0}
+#tm-rail .rail-item{position:relative;z-index:1}
+#tm-rail .rail-item.on{background:transparent!important;color:#04140C!important}
+#tm-rail .rail-toggle{display:none}
+@media(max-width:1099px){
+ body.tm-has-rail .bottomnav,body.tm-has-rail .tm-workspace-trigger{display:none!important}
+ body.tm-has-rail .content{padding-left:68px!important;padding-bottom:24px!important}
+ body.tm-has-rail .topbar{margin-left:68px!important}
+ #tm-rail{display:flex!important;flex-direction:column;align-items:center;position:fixed;z-index:70;left:8px;top:50%;bottom:auto;transform:translateY(-50%);width:52px;max-height:calc(100svh - 200px);padding:8px 6px;gap:4px;border:1px solid var(--tm-line-strong,#2a3868);border-radius:28px;background:var(--tm-black-2,#0a1022);box-shadow:0 18px 50px -12px #000c;overflow-y:auto;scrollbar-width:none;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+ #tm-rail::-webkit-scrollbar{display:none}
+ #tm-rail .rail-brand,#tm-rail .rail-search,#tm-rail .rail-head,#tm-rail .rail-plan,#tm-rail .rail-foot,#tm-rail .rail-group>small{display:none!important}
+ #tm-rail .rail-group,#tm-rail .rail-body,#tm-rail .rail-group.shut .rail-body{display:contents!important}
+ #tm-rail .rail-toggle{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border:0;border-radius:12px;background:transparent;color:var(--tm-silver,#a9b6cc)}
+ #tm-rail .rail-item{width:40px;min-height:40px;height:40px;padding:0;justify-content:center;border-radius:12px;font-size:0;gap:0;flex:none}
+ #tm-rail .rail-item span{display:none}
+ #tm-rail.open{width:min(236px,72vw);align-items:stretch;border-radius:22px}
+ #tm-rail.open .rail-item{width:100%;justify-content:flex-start;gap:12px;padding:0 11px;font-size:13px}
+ #tm-rail.open .rail-item span{display:inline}
+ #tm-rail.open .rail-toggle{justify-content:flex-start;padding:0 11px}}
+@media(prefers-reduced-motion:reduce){.rail-glide{transition:none}}
+
+#tm-rail .rail-item{display:flex!important;flex-direction:row!important;align-items:center;border:0!important;box-shadow:none!important;background:transparent!important;color:var(--tx,#e8edf3)}
+#tm-rail .rail-item span{white-space:nowrap;text-align:left}
+#tm-rail .rail-item.on{color:#04140C!important}
+[data-theme=day] #tm-rail .rail-item.on{color:#fff!important}
+
+@media(min-width:1100px){#tm-rail .rail-foot{background:var(--tm-black-2,#0a1022)!important;z-index:3;bottom:-16px;box-shadow:0 -14px 14px var(--tm-black-2,#0a1022)}#tm-rail{background:var(--tm-black-2,#0a1022)!important}}
+
+/* Fiches de plans : ligne « Tout X, plus : » discrète */
+.tm-feature-list li.inherit{list-style:none;color:var(--txm);font-size:12px;letter-spacing:.04em;opacity:.85}
+.tm-feature-list li.inherit::before{content:none!important}

@@ -1,0 +1,37 @@
+/* TRADEMIND — espace Owner v2 : sombre, dense, fluide. Présentation seulement. */
+:root{--tm-serif:'Chakra Petch','Hanken Grotesk',system-ui,sans-serif;--display:'Chakra Petch',system-ui,sans-serif}
+body{background:radial-gradient(900px 420px at 100% -12%,rgba(61,220,151,.07),transparent 62%),var(--tm-black)!important}
+.owner-sidebar{background:var(--tm-black-2)!important;backdrop-filter:none}
+.owner-brand{font-family:'Orbitron','Chakra Petch',sans-serif!important;letter-spacing:.08em!important}
+.owner-sidebar nav{position:relative}
+.nav-item{position:relative;z-index:1;border-radius:999px!important;transition:color .25s}
+.nav-item:hover{background:rgba(255,255,255,.04)!important}
+.nav-item.active{background:none!important;box-shadow:none!important;color:#07101F!important;font-weight:600}
+.nav-glide{position:absolute;left:0;right:0;top:0;height:40px;border-radius:999px;background:var(--tm-text);transition:transform .45s cubic-bezier(.34,1.25,.4,1),height .3s;pointer-events:none;z-index:0}
+.lang.active{background:rgba(61,220,151,.14)!important;border-color:rgba(61,220,151,.5)!important}
+.owner-topbar h1{font-weight:700!important;letter-spacing:-.5px!important}
+.eyebrow,.panel-kicker,.kpi small{font-family:'IBM Plex Mono',ui-monospace,monospace!important;letter-spacing:.06em!important}
+.kpi,.panel{background:linear-gradient(160deg,var(--tm-graphite),var(--tm-black-2))!important;border-color:var(--tm-line-strong)!important;border-radius:14px!important}
+.kpi{position:relative;overflow:hidden}
+.kpi::after{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--tm-cyan),transparent);opacity:.55}
+.kpi strong{font-family:var(--display)!important;font-weight:700!important}
+.owner-view.active .kpi,.owner-view.active .panel{animation:ovin .55s var(--tm-ease) both}
+.owner-view.active .kpi:nth-child(2),.owner-view.active .panel:nth-child(2){animation-delay:.06s}.owner-view.active .kpi:nth-child(3),.owner-view.active .panel:nth-child(3){animation-delay:.12s}.owner-view.active .kpi:nth-child(4),.owner-view.active .panel:nth-child(4){animation-delay:.18s}
+@keyframes ovin{from{opacity:0;transform:translateY(12px)}}
+.bar{background:linear-gradient(180deg,var(--tm-cyan),rgba(61,220,151,.14))!important;transform-origin:bottom;animation:barup .7s var(--tm-ease) both}
+@keyframes barup{from{transform:scaleY(.05)}}
+.data-table th{position:sticky;top:0;background:var(--tm-graphite);z-index:1}
+.data-table tr:hover td{background:rgba(61,220,151,.05)!important}
+.health-card.note,.health-card.note.unread{border-left:1px solid var(--tm-line-strong)!important}.health-card.note.unread{background:rgba(61,220,151,.06)!important}
+.outline-btn:hover{border-color:var(--tm-cyan)!important;color:var(--tm-cyan)!important}
+@media(max-width:700px){
+ .owner-sidebar{background:var(--tm-black-2)!important}.nav-glide{display:none}
+ .nav-item.active{background:var(--tm-text)!important}
+ .owner-topbar h1{font-size:24px!important}
+ .data-table table.tm-stack{min-width:0!important;display:block}.tm-stack thead{display:none}.tm-stack tbody,.tm-stack tr{display:block}
+ .tm-stack tr{padding:10px 12px;margin:0 0 8px;border:1px solid var(--tm-line);border-radius:10px;background:var(--tm-graphite)}
+ .tm-stack td{display:flex;justify-content:space-between;gap:12px;padding:4px 0!important;border:0!important;white-space:normal!important;text-align:right}
+ .tm-stack td::before{content:attr(data-label);color:var(--tm-muted);font-size:10px;text-align:left;flex:none}}
+@media(prefers-reduced-motion:reduce){.nav-glide,.bar,.owner-view.active .kpi,.owner-view.active .panel{animation:none;transition:none}}
+.owner-brand,.owner-brand *{text-decoration:none!important}
+.data-table td small{display:block;margin-top:2px;color:var(--tm-muted)}

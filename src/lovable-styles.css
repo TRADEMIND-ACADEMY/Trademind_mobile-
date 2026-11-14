@@ -1,0 +1,248 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * TRADEMIND ACADEMY design system.
+ * Obsidian black, champagne gold, ivory white, subtle violet.
+ * All colors in oklch. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ivory: var(--ivory);
+  --color-violet: var(--violet);
+  --color-obsidian: var(--obsidian);
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --obsidian: oklch(0.14 0.008 285);
+  --ivory: oklch(0.965 0.008 85);
+  --gold: oklch(0.82 0.09 88);
+  --gold-soft: oklch(0.72 0.06 88);
+  --violet: oklch(0.52 0.11 295);
+
+  --background: oklch(0.14 0.008 285);
+  --foreground: oklch(0.965 0.008 85);
+  --card: oklch(0.175 0.009 285);
+  --card-foreground: oklch(0.965 0.008 85);
+  --popover: oklch(0.175 0.009 285);
+  --popover-foreground: oklch(0.965 0.008 85);
+  --primary: oklch(0.82 0.09 88);
+  --primary-foreground: oklch(0.14 0.008 285);
+  --secondary: oklch(0.22 0.01 285);
+  --secondary-foreground: oklch(0.965 0.008 85);
+  --muted: oklch(0.22 0.01 285);
+  --muted-foreground: oklch(0.68 0.012 285);
+  --accent: oklch(0.52 0.11 295);
+  --accent-foreground: oklch(0.965 0.008 85);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.965 0.008 85);
+  --border: oklch(0.28 0.012 285);
+  --input: oklch(0.28 0.012 285);
+  --ring: oklch(0.82 0.09 88);
+
+  --gradient-gold: linear-gradient(
+    100deg,
+    color-mix(in oklab, var(--gold) 70%, var(--ivory)),
+    var(--gold),
+    var(--gold-soft)
+  );
+  --gradient-obsidian: linear-gradient(
+    170deg,
+    var(--obsidian),
+    color-mix(in oklab, var(--violet) 8%, var(--obsidian))
+  );
+  --shadow-lux: 0 30px 80px -40px color-mix(in oklab, var(--gold) 30%, transparent);
+  --shadow-violet: 0 40px 120px -60px color-mix(in oklab, var(--violet) 55%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 30%, transparent);
+  }
+}
+
+@utility text-gradient-gold {
+  background-image: var(--gradient-gold);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-obsidian-gradient {
+  background-image: var(--gradient-obsidian);
+}
+
+@utility shadow-lux {
+  box-shadow: var(--shadow-lux);
+}
+
+@utility hairline {
+  border: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+}
+
+@utility glass-panel {
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--ivory) 8%, transparent);
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+@utility gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 60%, transparent),
+    transparent
+  );
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes lux-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lux-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lux-draw {
+  from {
+    stroke-dashoffset: 1200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes lux-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@utility animate-fade-up {
+  animation: lux-fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-fade-in {
+  animation: lux-fade 1.2s ease both;
+}
+
+@utility animate-draw {
+  stroke-dasharray: 1200;
+  animation: lux-draw 3.2s ease-out both;
+}
+
+@utility animate-drift {
+  animation: lux-drift 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

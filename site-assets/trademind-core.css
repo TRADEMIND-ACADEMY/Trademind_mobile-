@@ -1,0 +1,144 @@
+/* ==========================================================================
+   TRADEMIND — SOCLE COMMUN (étape 1 de la refonte visuelle)
+   Partagé par le site (/), l'application (/app, /login) et le centre Owner (/owner).
+   Chargé EN DERNIER dans chaque page : il redéfinit les variables existantes
+   (aucun comportement, aucune route, aucune API n'est touchée).
+   Direction : « Immersive Financial Experience ».
+   ========================================================================== */
+
+/* ---------- 1. Jetons de design ---------------------------------------- */
+:root{
+  /* Matières */
+  --tm-black:#070B1A;          /* noir minéral : fond de l'espace de travail */
+  --tm-black-2:#0A1022;
+  --tm-graphite:#0F1730;       /* graphite : panneaux */
+  --tm-graphite-2:#152040;     /* niveau 2 : survol, champs */
+  --tm-graphite-3:#1B2850;     /* niveau 3 : éléments actifs */
+  --tm-line:#1C274A;           /* filet standard */
+  --tm-line-strong:#2A3868;    /* filet appuyé, bordures de champ */
+  --tm-silver:#A9B6CC;         /* argent froid : texte secondaire */
+  --tm-muted:#8493AE;          /* libellés, métadonnées */
+  --tm-text:#E8EDF2;           /* texte principal */
+  /* Couleurs fonctionnelles */
+  --tm-cyan:#3DDC97;           /* identité, éléments actifs, courbe d'équité */
+  --tm-cyan-strong:#2FC283;
+  --tm-copper:#C98F62;         /* Owner, décisions, avertissements, DAN */
+  --tm-gain:#52C79A;           /* résultats positifs uniquement */
+  --tm-loss:#E5706A;           /* résultats négatifs / alertes uniquement */
+  /* Typographie */
+  --tm-serif:'Instrument Serif','Iowan Old Style',Georgia,serif;
+  --tm-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --tm-sans:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  /* Rythme */
+  --tm-r:2px;                  /* rayon unique : l'identité n'est pas arrondie */
+  --tm-s1:4px;--tm-s2:8px;--tm-s3:12px;--tm-s4:16px;--tm-s5:24px;--tm-s6:32px;--tm-s7:48px;--tm-s8:72px;
+  /* Mouvement */
+  --tm-ease:cubic-bezier(.22,.8,.24,1);       /* freine en fin de course */
+  --tm-ease-io:cubic-bezier(.65,.05,.25,1);
+  --tm-t-fast:.16s;--tm-t:.28s;--tm-t-slow:.55s;
+}
+
+/* ---------- 2. Thème NUIT (défaut) : variables de chaque produit ------- */
+html:root,html[data-theme=night]{
+  color-scheme:dark;
+  /* Site public */
+  --bg:var(--tm-black);--surface:var(--tm-graphite);--surface-elevated:var(--tm-graphite-2);
+  --text-primary:var(--tm-text);--text-secondary:var(--tm-silver);
+  --border:var(--tm-line-strong);--accent:var(--tm-cyan);--accent-text:var(--tm-cyan);
+  --accent-strong:var(--tm-cyan);--on-accent:#04140C;--accent-soft:rgba(61,220,151,.10);
+  --success:var(--tm-gain);--warning:var(--tm-copper);--danger:var(--tm-loss);
+  --success-text:var(--tm-gain);--warning-text:var(--tm-copper);
+  --shadow:0 0 0 1px var(--tm-line),0 24px 60px -30px rgba(0,0,0,.8);
+  --serif:var(--tm-serif);--sans:var(--tm-sans);
+  --plan-foundation:var(--tm-silver);--plan-ascend:var(--tm-copper);--plan-apex:var(--tm-cyan);--plan-sovereign:#D8B46C;
+  /* Application */
+  --surf:var(--tm-graphite);--surf2:var(--tm-graphite-2);--bd:var(--tm-line-strong);--line:var(--tm-line);
+  --tx:var(--tm-text);--txm:var(--tm-silver);--pri:var(--tm-silver);--acc:var(--tm-cyan);--acc2:var(--tm-copper);
+  --ok:var(--tm-gain);--bad:var(--tm-loss);--warn:var(--tm-copper);--glow:rgba(61,220,151,.10);--glow2:rgba(61,220,151,.06);
+  --radius-lg:var(--tm-r);--radius-xl:var(--tm-r);--shadow-soft:none;--shadow-deep:0 30px 70px -30px rgba(0,0,0,.85);
+  --fh:var(--tm-serif);--fd:var(--tm-serif);--fb:var(--tm-sans);--fm:var(--tm-mono);
+  /* Owner */
+  --surface2:var(--tm-graphite-2);--text:var(--tm-text);--muted:var(--tm-muted);--accent2:var(--tm-copper);
+  --good:var(--tm-gain);--bad:var(--tm-loss);--display:var(--tm-serif);
+}
+
+/* ---------- 3. Thème JOUR : « papier minéral », sobre et froid --------- */
+html[data-theme=day]{
+  color-scheme:light;
+  --bg:#EEF0F2;--surface:#F7F8F9;--surface-elevated:#E6E9EC;
+  --text-primary:#12161B;--text-secondary:#47525E;--border:rgba(18,22,27,.16);
+  --accent:#1E7C8A;--accent-text:#16626E;--accent-strong:#1E7C8A;--on-accent:#fff;--accent-soft:rgba(30,124,138,.10);
+  --success:#1E8A63;--warning:#9A6A3E;--danger:#B8433D;--success-text:#1E8A63;--warning-text:#9A6A3E;
+  --shadow:0 0 0 1px rgba(18,22,27,.10),0 22px 50px -32px rgba(18,22,27,.35);
+  --plan-foundation:#47525E;--plan-ascend:#9A6A3E;--plan-apex:#16626E;--plan-sovereign:#7A5A22;
+  --surf:#F7F8F9;--surf2:#E6E9EC;--bd:rgba(18,22,27,.18);--line:rgba(18,22,27,.10);
+  --tx:#12161B;--txm:#47525E;--pri:#47525E;--acc:#1E7C8A;--acc2:#9A6A3E;--ok:#1E8A63;--bad:#B8433D;--warn:#9A6A3E;
+  --glow:rgba(30,124,138,.08);--glow2:rgba(30,124,138,.05);
+  --surface2:#E6E9EC;--text:#12161B;--muted:#5A6672;--accent2:#9A6A3E;--good:#1E8A63;
+}
+
+/* ---------- 4. Base typographique -------------------------------------- */
+html body{font-family:var(--tm-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html body{background-image:none}
+h1,h2,h3,.hero h1,.statement h2,.section h2,.final-cta h2,.owner-topbar h1,.panel h2{font-family:var(--tm-serif);font-weight:400;letter-spacing:-.012em}
+/* Chiffres financiers : toujours gravés (mono, chiffres tabulaires) */
+.num,.price,.stat-val,.sr-metrics,.big,.kpi,.hero-card-stats strong,.preview-balance strong,.preview-footer b,
+td.num,.mono,[data-num],.tm-num,.owner-kpi b,.metric b,.metric strong{
+  font-family:var(--tm-mono);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em}
+/* Libellés techniques : mono, capitales, espacés — jamais sous 11 px */
+.eyebrow,.stat-label,.sr-label,.lbl,.glabel,.card-top,.plan-code,.micro,small.k,.tm-label{
+  font-family:var(--tm-mono);font-size:max(11px,.6875rem);letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+
+/* ---------- 5. Surfaces : filets, pas de cartes arrondies -------------- */
+:where(.panel,.card,.chartcard,.pro-chart-card,.pc-panel,.statrow2,.plan-card,.preview-window,.hero-card-main,.node,
+       .payment-method,.method-loading,.intelligence-panel,.engine,.engine-master,.block,.detrow){
+  border-radius:var(--tm-r)}
+:where(.panel,.card,.chartcard,.pro-chart-card,.pc-panel,.preview-window,.hero-card-main,.plan-card,.payment-method,.engine){
+  box-shadow:none;background-image:none}
+/* Boutons, champs : rayon unique, retour visuel précis */
+:where(.btn,.button,button.primary,.iconbtn,.lang,.theme,.mobile-menu,input,select,textarea,.tabs button,.tabs .on){border-radius:var(--tm-r)}
+.btn,.button{font-family:var(--tm-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  transition:background var(--tm-t-fast) var(--tm-ease),border-color var(--tm-t-fast) var(--tm-ease),color var(--tm-t-fast) var(--tm-ease),transform var(--tm-t-fast) var(--tm-ease),box-shadow var(--tm-t) var(--tm-ease)}
+.btn.primary,.button.primary{background:var(--tm-cyan);color:#06181C;border-color:var(--tm-cyan);box-shadow:none}
+.btn.primary:hover,.button.primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px var(--tm-cyan),0 10px 26px -10px rgba(92,200,215,.55)}
+.btn.primary:active,.button.primary:active{transform:translateY(1px) scale(.985);background:var(--tm-cyan-strong)}
+.btn:not(.primary):hover,.button.ghost:hover,.button.outline:hover{border-color:var(--tm-silver);color:var(--tm-text);background:transparent}
+.btn:disabled,.button:disabled,.btn[aria-disabled=true]{opacity:.38;cursor:not-allowed;transform:none;box-shadow:none}
+.btn[aria-busy=true],.button[aria-busy=true]{position:relative;color:transparent!important;pointer-events:none}
+.btn[aria-busy=true]::after,.button[aria-busy=true]::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;border:2px solid #06181C;border-top-color:transparent;border-radius:50%;animation:tm-spin .8s linear infinite}
+@keyframes tm-spin{to{transform:rotate(360deg)}}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:2px solid var(--tm-cyan);outline-offset:2px}
+input,select,textarea{background:var(--tm-black);border:1px solid var(--tm-line-strong);color:var(--tm-text);font-family:var(--tm-sans)}
+html[data-theme=day] input,html[data-theme=day] select,html[data-theme=day] textarea{background:#fff;color:#12161B;border-color:rgba(18,22,27,.22)}
+input:focus,select:focus,textarea:focus{border-color:var(--tm-cyan);box-shadow:none}
+
+/* ---------- 6. Signature : la règle de process -------------------------
+   Reprend les en-têtes numérotés existants (.sechead / .rule / .idx) :
+   filet gradué (graduations tous les 12 px) + numéro cyan + libellé mono. */
+.sechead{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--tm-line-strong);padding-bottom:9px}
+.sechead .idx{font-family:var(--tm-mono);font-size:11px;color:var(--tm-cyan);letter-spacing:.06em;opacity:1}
+.sechead h2{font-family:var(--tm-mono);font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--tm-text)}
+.sechead .rule{flex:1;height:5px;min-width:16px;background:repeating-linear-gradient(90deg,var(--tm-line-strong) 0 1px,transparent 1px 12px)}
+html[data-theme=day] .sechead{border-bottom-color:rgba(18,22,27,.25)}
+/* Classe utilitaire pour les nouvelles sections */
+.tm-rule{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--tm-line-strong);padding-bottom:9px}
+.tm-rule>b{font:500 11px var(--tm-mono);color:var(--tm-cyan)}
+.tm-rule>span{font:500 11px var(--tm-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--tm-text)}
+.tm-rule::after{content:"";flex:1;height:5px;background:repeating-linear-gradient(90deg,var(--tm-line-strong) 0 1px,transparent 1px 12px)}
+.tm-rule.copper>b{color:var(--tm-copper)}
+
+/* Résultats : vert/rouge uniquement pour des montants chiffrés */
+.up,.gain,.pos{color:var(--tm-gain)}.down,.loss,.neg{color:var(--tm-loss)}
+
+/* Tableaux compacts */
+table{border-collapse:collapse}
+th{font-family:var(--tm-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--tm-muted)}
+td{font-variant-numeric:tabular-nums}
+
+/* Barre de défilement discrète */
+*{scrollbar-width:thin;scrollbar-color:var(--tm-line-strong) transparent}
+
+/* ---------- 7. Mouvement : respect des préférences -------------------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
