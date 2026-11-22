@@ -24,6 +24,20 @@ Capital démo vérifié : 13 460,35 $ identique à chaque chargement, en FR comm
 
 - **Listes de plans incrémentales** : chaque plan affiche « Tout [plan précédent], plus : » puis seulement ses nouveautés. Le tableau comparatif du site ne coche une fonction que dans le plan où elle apparaît, avec la mention « Chaque plan inclut tout le plan précédent ». Les fiches de plans de l'application suivent la même règle. Les droits de Dan de ces fiches (ASCEND sans Dan, APEX avec Dan Coach) sont alignés sur le serveur.
 
+- **Tableau de bord** : les cartes qui étaient en bas (identité de l'abonnement, DAN, exécutions récentes, revues hebdomadaire et mensuelle, badges) sont maintenant au début de la page (`app-immersive.css`, règle `#tm-command-surfaces`).
+- **Menu latéral et bouton de Dan un peu plus haut** (téléphone et tablette) : menu remonté d'environ 40 px, bouton de Dan à 44 % de la hauteur au lieu de 62 % (si tu as déplacé le bouton à la main, sa position choisie est conservée).
+- **Dan en français quand l'application est en français** : le panneau se reconstruit à l'ouverture si la langue ou le plan ont changé (avant, il restait figé en anglais).
+- **Message d'erreur de Dan** : le détail technique des fournisseurs (clé invalide, erreur 401…) n'est plus montré qu'à l'Owner. Les autres utilisateurs voient seulement « Dan est momentanément indisponible ».
+- **Traduction automatique du navigateur désactivée dans l'application** (`translate="no"`) : c'est elle qui produisait « ACADÉMIE TRADEMIND », « RENSEIGNEMENTS DU TRADER » et « DAN SOUVERAIN ». La langue de la page suit désormais celle de l'application.
+
+- **Application : texte plus petit** : les titres et les grands chiffres sont réduits d'environ 7 à 22 % selon leur taille (le plus gros chiffre passe de 34 à 24 px, les titres de page de 22,6 à 19 px). Les champs de saisie et le panneau de Dan ne sont pas touchés. Tout est dans la fin de `app-v2.css`, section « Taille du texte » : supprime cette section pour revenir à l'ancien rendu.
+- **Espace Owner : centre de mission** (`owner-future.js` et `owner-future.css`, après `owner-v2`) :
+  - Vue d'ensemble en direct avec horloge UTC, état global des systèmes et ligne de balayage.
+  - Quatre instruments : utilisateurs, sessions, abonnements et revenus confirmés, avec courbes qui se dessinent.
+  - Activité sur 14 jours en histogramme, anneau de répartition des plans, tableau des systèmes (API, authentification, données, paiements, DAN, e-mail, webhook), flux d'événements en direct et flux de paiement.
+  - Palette de navigation Ctrl/⌘ + K, cadres à angles marqués sur toutes les vues, actualisation toutes les 30 secondes.
+  - Les données viennent uniquement des routes Owner existantes (aucune écriture). Si une lecture échoue, l'ancienne vue d'ensemble reste affichée.
+
 ## Volontairement non repris
 Mon dock vert, mon menu à pastille, mon accueil menthe et mes pages /terms et /privacy : ton ETAPE4 a déjà le menu que tu veux et la page /legal.html.
 

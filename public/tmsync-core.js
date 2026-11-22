@@ -25,7 +25,7 @@
   function createSyncCore(opts) {
     var api = opts.api, storage = opts.storage, adapter = opts.adapter, getUserId = opts.userId, isDemo = opts.isDemo;
     var listeners = [], status = { state: "idle", pending: 0, conflicts: 0, rejected: 0, lastSyncAt: null, error: null };
-    var gen = 0, running = null, rerun = false, timer = null, controller = null;
+    var gen = 0, running = null, rerun = false, timer = null, controller = null, runUid = null;
 
     var emit = function () { var s = Object.assign({}, status); listeners.forEach(function (l) { try { l(s); } catch (e) {} }); try { adapter.onStatus && adapter.onStatus(s); } catch (e) {} };
     var setStatus = function (patch) { Object.assign(status, patch); emit(); };
@@ -33,7 +33,7 @@
     var loadMeta = function (uid) { try { var m = JSON.parse(storage.get(metaKey(uid)) || "null"); if (m && typeof m === "object" && m.userId === uid) return m; } catch (e) {} return null; };
     var saveMeta = function (m) { try { storage.set(metaKey(m.userId), JSON.stringify(m)); } catch (e) {} };
     var freshMeta = function (uid) { return { userId: uid, cursor: 0, v: {}, shadow: {}, deletes: {}, conflicts: [], rejected: {}, lastSyncAt: null }; };
-    var aborted = function (g) { return g !== gen || isDemo(); };
+    var aborted = function (g) { return g !== gen || isDemo() || (runUid !== null && getUserId() !== runUid); };
 
     function localWire() {
       var raw = adapter.readLocal() || {}, out = {}, skippedDemo = 0;
@@ -52,6 +52,7 @@
     function remember(meta, list) { meta.conflicts = (meta.conflicts || []).concat(list).slice(-50); }
 
     async function call(method, path, body, g) {
+      if (aborted(g)) throw Object.assign(new Error("ABORTED"), { aborted: true });
       controller = typeof AbortController !== "undefined" ? new AbortController() : null;
       var res = await api(method, path, body, controller ? controller.signal : undefined, isDemo() ? { "x-tm-mode": "demo" } : undefined);
       if (aborted(g)) throw Object.assign(new Error("ABORTED"), { aborted: true });
@@ -61,6 +62,7 @@
     async function run(g) {
       var uid = getUserId();
       if (!uid) { setStatus({ state: "signedout", error: null }); return; }
+      runUid = uid;
       var meta = loadMeta(uid);
       if (!meta) {
         // Compte différent de celui qui a produit les données locales : sauvegarde puis nettoyage, JAMAIS d'envoi au nouveau compte.
@@ -155,7 +157,14 @@
 
     function sync() {
       if (isDemo()) { setStatus({ state: "demo", error: null }); return Promise.resolve({ ok: true, skipped: "demo" }); }
-      if (running) { rerun = true; return running; }
+      if (running) {
+        if (runUid !== null && getUserId() !== runUid) {
+          gen++; if (controller) { try { controller.abort(); } catch (e) {} }
+          rerun = false; if (timer) { clearTimeout(timer); timer = null; }
+          return running.then(function () { return sync(); });
+        }
+        rerun = true; return running;
+      }
       var g = gen;
       running = (async function () {
         try { await run(g); return { ok: true }; }
@@ -165,7 +174,7 @@
           setStatus({ state: offline ? "offline" : "error", error: String((e && e.message) || e).slice(0, 80) });
           return { ok: false, error: String((e && e.message) || e) };
         } finally {
-          running = null;
+          running = null; runUid = null;
           if (rerun) { rerun = false; schedule(300); }
         }
       })();

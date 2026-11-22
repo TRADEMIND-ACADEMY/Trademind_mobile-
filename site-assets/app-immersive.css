@@ -3,7 +3,7 @@
 
 /* ---------- Ordre : le Command Deck passe avant les cartes de compte ---------- */
 #view-dashboard.active{display:flex;flex-direction:column}
-#view-dashboard #tm-command-surfaces{order:5;margin-top:44px;padding-top:28px;border-top:1px solid var(--tm-line,rgba(167,178,190,.16))}
+#view-dashboard #tm-command-surfaces{order:0;margin:0 0 36px;padding:0 0 28px;border-bottom:1px solid var(--tm-line,rgba(167,178,190,.16))}
 #view-dashboard #dashBody,#view-dashboard #dashEmpty{order:1}
 
 /* ---------- Menu latéral (bureau) ---------- */

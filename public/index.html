@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="night" class="tm-session-pending">
+<html lang="fr" data-theme="night" class="tm-session-pending" translate="no">
 <head>
+<meta name="google" content="notranslate">
 <script>(function(){try{var uid=localStorage.getItem('tm_current_user');if(uid&&!window.__tmScopedStorage){var raw=window.localStorage,key=function(k){return uid+':'+k;};var scoped=new Proxy(raw,{get:function(t,p){if(p==='getItem')return function(k){return t.getItem(/^dtj_/.test(k)?key(k):k)};if(p==='setItem')return function(k,v){return t.setItem(/^dtj_/.test(k)?key(k):k,v)};if(p==='removeItem')return function(k){return t.removeItem(/^dtj_/.test(k)?key(k):k)};return Reflect.get(t,p)}});Object.defineProperty(window,'localStorage',{configurable:true,value:scoped});window.__tmScopedStorage=true;}}catch(e){}})();</script>
 <script>(function(){try{var s=JSON.parse(localStorage.getItem('dtj_settings')||'{}');var t=s.theme||'auto';if(t==='auto'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'night':'day';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','night');}})();</script>
 <meta charset="UTF-8">
@@ -886,7 +887,7 @@ button,.btn,[role=button]{min-height:40px;line-height:1.25}
 .cmdk-item .ci-hint{font-size:10.5px!important}
 .pc-table-scroll td::before{font-size:10px!important}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><link rel="stylesheet" href="/site-assets/trademind-core.css?v=2"><link rel="stylesheet" href="/site-assets/app-immersive.css?v=5"><link rel="stylesheet" href="/site-assets/app-v2.css?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><link rel="stylesheet" href="/site-assets/trademind-core.css?v=2"><link rel="stylesheet" href="/site-assets/app-immersive.css?v=5"><link rel="stylesheet" href="/site-assets/app-v2.css?v=4">
 </head>
 
 <body>
@@ -2276,6 +2277,14 @@ document.getElementById('smcScoreCat').textContent=smcLabel(smcScore);
 renderGuardian();
 }
 function submitTrade(e){e.preventDefault();
+{const eN=parseFloat(f_entry.value),sN=parseFloat(f_sl.value),pN=parseFloat(f_pnl.value),rk=parseFloat(f_risk.value),rs=f_result.value;const fr=(typeof window.tmLang==='function'?window.tmLang():'en')==='fr';let msg='';
+if(!isFinite(eN)||!isFinite(sN)||!isFinite(pN))msg=fr?'Entrée, Stop Loss et P&L doivent être des nombres valides.':'Entry, Stop Loss and P&L must be valid numbers.';
+else if(eN<=0||sN<=0)msg=fr?'Entrée et Stop Loss doivent être supérieurs à 0.':'Entry and Stop Loss must be greater than 0.';
+else if(eN===sN)msg=fr?'Le Stop Loss doit être différent du prix d\u2019entrée.':'Stop Loss must differ from the entry price.';
+else if(f_risk.value!==''&&(!isFinite(rk)||rk<0||rk>100))msg=fr?'Le risque doit être compris entre 0 et 100 %.':'Risk must be between 0 and 100%.';
+else if(f_tp.value!==''&&!(parseFloat(f_tp.value)>0))msg=fr?'Le Take Profit doit être un nombre supérieur à 0.':'Take Profit must be a number greater than 0.';
+else if((rs==='win'&&pN<0)||(rs==='loss'&&pN>0))msg=fr?'Le résultat ne correspond pas au P&L : un trade gagnant ne peut pas avoir un P&L négatif (et inversement).':'Result does not match P&L: a winning trade cannot have a negative P&L (and vice versa).';
+if(msg){toast(msg);return false;}}
 const editId=document.getElementById('editId').value;
 const t={id:editId||uid(),date:f_date.value,time:f_time.value,symbol:f_symbol.value.toUpperCase(),direction:dir,session:f_session.value,setup:f_setup.value,
 entry:parseFloat(f_entry.value),sl:parseFloat(f_sl.value),tp:f_tp.value?parseFloat(f_tp.value):null,lot:f_lot.value?parseFloat(f_lot.value):null,
